@@ -2,6 +2,7 @@ package polonium.com.kotlinexample
 
 import android.os.Build
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -9,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
@@ -40,7 +42,13 @@ class MainActivity : AppCompatActivity() {
             router.toScanFragment()
             nav_view.setNavigationItemSelectedListener(this)
         }*/
-        nav_view.setupWithNavController(nav_host_fragment.findNavController())
+        NavigationUI.setupWithNavController(nav_view,nav_host_fragment.findNavController())
+        nav_host_fragment.findNavController().addOnNavigatedListener { controller, destination ->{}
+            val title = destination.label
+            if (!TextUtils.isEmpty(title)) {
+                toolbar.title = title
+            }
+        }
     }
 
     /*override fun onBackPressed() {
