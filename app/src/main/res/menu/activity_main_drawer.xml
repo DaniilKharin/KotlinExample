@@ -5,7 +5,7 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_scan"
+            android:id="@+id/scanFragment"
             android:icon="@drawable/ic_menu_camera"
             android:title="@string/main_menu_scan_title" />
         <item
@@ -14,9 +14,9 @@
             android:title="@string/main_menu_history_title" />
     </group>
 
-    <group>
+    <group android:checkableBehavior="none">
         <item
-            android:id="@+id/nav_settings"
+            android:id="@+id/settingsDialogFragment"
             android:icon="@drawable/ic_menu_manage"
             android:title="Настроики" />
     </group>

@@ -17,7 +17,7 @@ import polonium.com.kotlinexample.di.DaggerMainActivityComponent
 import polonium.com.kotlinexample.di.MainModule
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity() {
 
 
     val appComponent = DaggerMainActivityComponent.builder().mainModule(MainModule(this)).build()
@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+    /*override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.nav_scan -> {
@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
-    }
+    }*/
 
     override fun onDestroy() {
         super.onDestroy()
