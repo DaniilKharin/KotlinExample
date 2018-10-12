@@ -22,12 +22,12 @@ class Preferencis(val sharedPreferences: SharedPreferences) {
             sharedPreferences.edit().putBoolean(SHOW_DRAW_RECT_SETTING_NAME, value).apply()
         }
     var showFlash: Boolean
-        get() = sharedPreferences.getBoolean(SHOW_FLASH_SETTING_NAME, true)
+        get() = sharedPreferences.getBoolean(SHOW_FLASH_SETTING_NAME, false)
         set(value) {
             sharedPreferences.edit().putBoolean(SHOW_FLASH_SETTING_NAME, value).apply()
         }
     var multipleScan: Boolean
-        get() = sharedPreferences.getBoolean(MULTIPLE_SCAN_SETTING_NAME, true)
+        get() = sharedPreferences.getBoolean(MULTIPLE_SCAN_SETTING_NAME, false)
         set(value) {
             sharedPreferences.edit().putBoolean(MULTIPLE_SCAN_SETTING_NAME, value).apply()
         }

@@ -5,10 +5,8 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.pm.PackageManager
 import android.hardware.Camera
-import android.os.Build
 import android.os.Bundle
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -25,7 +23,11 @@ import kotlinx.android.synthetic.main.fragment_scan.*
 import polonium.com.kotlinexample.MainActivity
 import polonium.com.kotlinexample.R
 import polonium.com.kotlinexample.Utils.RxPermissionsXKtx.RxPermissionsXKtx
-import polonium.com.kotlinexample.scan.mycapture.*
+import polonium.com.kotlinexample.scan.mycapture.BarcodeGraphic
+import polonium.com.kotlinexample.scan.mycapture.BarcodeGraphicTracker
+import polonium.com.kotlinexample.scan.mycapture.CameraSource
+import polonium.com.kotlinexample.scan.mycapture.GraphicOverlay
+import timber.log.Timber
 import java.io.IOException
 import java.util.*
 
@@ -179,7 +181,7 @@ class ScanFragment : Fragment() {
             // isOperational() can be used to check if the required native libraries are currently
             // available.  The detectors will automatically become operational once the library
             // downloads complete on device.
-            Log.w(TAG, "Detector dependencies are not yet available.")
+            Timber.tag(TAG).w("Detector dependencies are not yet available.")
 
             // Check for low storage.  If there is low storage, the native library will not be
             // downloaded, so detection will not become operational.
@@ -187,7 +189,7 @@ class ScanFragment : Fragment() {
 
             if (hasLowStorage) {
                 Toast.makeText(context, R.string.low_storage_error, Toast.LENGTH_LONG).show()
-                Log.w(TAG, getString(R.string.low_storage_error))
+                Timber.tag(TAG).w(getString(R.string.low_storage_error))
             }
         }
 
@@ -205,12 +207,6 @@ class ScanFragment : Fragment() {
                 .setFacing(cameraFacing)
                 .setRequestedPreviewSize(height, width)
                 .setRequestedFps(15.0f)
-
-        // make sure that auto focus is an available option
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-            builder = builder.setFocusMode(
-                    if (autoFocus) Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE else null)
-        }
 
         mCameraSource = builder
                 .setFlashMode(if (useFlash) Camera.Parameters.FLASH_MODE_TORCH else null)
@@ -307,13 +303,13 @@ class ScanFragment : Fragment() {
                                             permissions: Array<String>,
                                             grantResults: IntArray) {
         if (requestCode != RC_HANDLE_CAMERA_PERM) {
-            Log.d(TAG, "Got unexpected permission result: $requestCode")
+            Timber.tag(TAG).w("Got unexpected permission result: $requestCode")
             super.onRequestPermissionsResult(requestCode, permissions, grantResults)
             return
         }
 
         if (grantResults.size != 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            Log.d(TAG, "Camera permission granted - initialize the camera source")
+            Timber.tag(TAG).d("Camera permission granted - initialize the camera source")
             // we have permission, so create the camerasource
             createCameraSource(viewModel?.preferencis!!.autofocus, viewModel?.preferencis!!.showFlash)
             return
@@ -342,7 +338,7 @@ class ScanFragment : Fragment() {
             try {
                 preview!!.start(mCameraSource!!, graphicOverlay)
             } catch (e: IOException) {
-                Log.e(TAG, "Unable to start camera source.", e)
+                Timber.tag(TAG).e(e, "Unable to start camera source.")
                 mCameraSource!!.release()
                 mCameraSource = null
             }

@@ -17,7 +17,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/autofocus_setting_title"
-            android:checked="@{viewModel.preferencis.autofocus}"/>
+            android:checked="@={viewModel.preferencis.autofocus}"/>
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/flash_setting_title"
+            android:checked="@={viewModel.preferencis.showFlash}"/>
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/text_setting_title"
+            android:checked="@={viewModel.preferencis.shouldShowText}"/>
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/rect_setting_title"
+            android:checked="@={viewModel.preferencis.showDrawRect}"/>
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/touchAsCallback_setting_title"
+            android:checked="@={viewModel.preferencis.touchAsCallback}"/>
     </LinearLayout>
     </ScrollView>
 </layout>

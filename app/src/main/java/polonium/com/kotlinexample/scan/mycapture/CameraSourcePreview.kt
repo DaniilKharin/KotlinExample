@@ -10,6 +10,7 @@ import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.view.ViewGroup
 import androidx.annotation.RequiresPermission
+import timber.log.Timber
 import java.io.IOException
 
 
@@ -102,9 +103,9 @@ class CameraSourcePreview(context: Context, attrs: AttributeSet) : ViewGroup(con
             try {
                 startIfReady()
             } catch (se: SecurityException) {
-                Log.e(TAG, "Do not have permission to start the camera", se)
+                Timber.tag(TAG).e(se, "Do not have permission to start the camera")
             } catch (e: IOException) {
-                Log.e(TAG, "Could not start camera source.", e)
+                Timber.tag(TAG).e(e, "Could not start camera source.")
             }
 
         }
@@ -122,7 +123,7 @@ class CameraSourcePreview(context: Context, attrs: AttributeSet) : ViewGroup(con
         try {
             startIfReady()
         } catch (e: IOException) {
-            Log.e(TAG, "Could not start camera source.", e)
+            Timber.tag(TAG).e(e, "Could not start camera source.")
         }
 
         var previewWidth = 320
@@ -186,7 +187,7 @@ class CameraSourcePreview(context: Context, attrs: AttributeSet) : ViewGroup(con
             return true
         }
 
-        Log.d(TAG, "isPortraitMode returning false by default")
+        Timber.tag(TAG).d("isPortraitMode returning false by default")
         return false
     }
 }

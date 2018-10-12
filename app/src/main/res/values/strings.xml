@@ -38,4 +38,8 @@
     <string name="saved">Изображение кода сохранено</string>
     <string name="open_after_save_question">Открыть после сохранения?</string>
     <string name="autofocus_setting_title">Автофокус</string>
+    <string name="flash_setting_title">Вспышка</string>
+    <string name="text_setting_title">Отображать текст</string>
+    <string name="rect_setting_title">Отображать границы</string>
+    <string name="touchAsCallback_setting_title">Открывать только по тапу</string>
 </resources>

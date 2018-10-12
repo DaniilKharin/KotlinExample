@@ -4,7 +4,6 @@ import android.graphics.Bitmap
 import android.net.Uri
 import androidx.databinding.ObservableField
 import com.google.android.gms.vision.barcode.Barcode
-import io.reactivex.Observable
 
 interface IRouter {
 
