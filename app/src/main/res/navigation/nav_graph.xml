@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    app:startDestination="@id/scanFragment">
+    <fragment
+        android:id="@+id/scanFragment"
+        android:name="polonium.com.kotlinexample.scan.ScanFragment"
+        android:label="ScanFragment" >
+        <action
+            android:id="@+id/action_scanFragment_to_codeOverviewFragment"
+            app:destination="@+id/codeOverviewFragment" />
+        <action
+            android:id="@+id/action_open_settings"
+            app:destination="@id/settingsDialogFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/codeOverviewFragment"
+        android:name="polonium.com.kotlinexample.codeOverview.CodeOverviewFragment"
+        android:label="CodeOverviewFragment" >
+        <argument
+            android:name="barcode"/>
+        <action
+            android:id="@+id/action_open_settings"
+            app:destination="@id/settingsDialogFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsDialogFragment"
+        android:name="polonium.com.kotlinexample.settings.SettingsDialogFragment"
+        android:label="SettingsDialogFragment" />
+</navigation>

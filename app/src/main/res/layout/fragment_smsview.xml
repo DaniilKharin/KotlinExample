@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="polonium.com.kotlinexample.codeOverview.CodeOverviewViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".codeOverview.content.SMSViewFragment">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/number_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/call_btn"
+                android:text="@string/phoneNumbTitle" />
+
+            <TextView
+                android:id="@+id/number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/call_btn"
+                android:layout_marginStart="4dp"
+                android:layout_marginLeft="4dp"
+                android:layout_toStartOf="@id/call_btn"
+                android:layout_toLeftOf="@id/call_btn"
+                android:layout_toEndOf="@id/number_title"
+                android:layout_toRightOf="@id/number_title"
+                android:text="@{viewModel.barcode.sms.phoneNumber}"
+                tools:text="\n\n" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/call_btn"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:text="Вызов"
+                app:cornerRadius="16dp"
+                app:strokeColor="@color/colorAccent"
+                app:strokeWidth="1dp"
+                android:onClick="@{()->viewModel.call()}"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/message_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/send_sms_btn"
+                android:text="@string/messageTitle" />
+
+            <TextView
+                android:id="@+id/message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/send_sms_btn"
+                android:layout_marginStart="4dp"
+                android:layout_marginLeft="4dp"
+                android:layout_toStartOf="@id/send_sms_btn"
+                android:layout_toLeftOf="@id/send_sms_btn"
+                android:layout_toEndOf="@id/message_title"
+                android:layout_toRightOf="@id/message_title"
+                android:text="@{viewModel.barcode.sms.message}"
+                tools:text="\n\n" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/send_sms_btn"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:contentDescription="@string/send"
+                android:onClick="@{()->viewModel.sendSms()}"
+                android:text="СМС"
+                app:cornerRadius="16dp"
+                app:strokeColor="@color/colorAccent"
+                app:strokeWidth="1dp" />
+
+        </RelativeLayout>
+    </LinearLayout>
+</layout>

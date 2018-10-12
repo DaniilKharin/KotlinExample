@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">QrBar Scanner</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="main_menu_scan_title">Сканировать</string>
+    <string name="main_menu_history_title">История</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="err">\"ошибка распознавания\"</string>
+    <string name="contact">Контакт</string>
+    <string name="email">email</string>
+    <string name="ISBN">ISBN</string>
+    <string name="phone">Телефон</string>
+    <string name="product">Продукт</string>
+    <string name="sms">СМС</string>
+    <string name="text">Текст</string>
+    <string name="url">Url адрес</string>
+    <string name="wifi">Wifi</string>
+    <string name="geo">Гео метка</string>
+    <string name="calendarEvent">Событие календаря</string>
+    <string name="driverLicense">Водительское удостоверение</string>
+    <string name="rawHint">RAW значение</string>
+    <string name="rawTitle">RAW значение:</string>
+    <string name="typetitle">Тип данных:</string>
+    <string name="phoneNumbTitle">Номер телефона:</string>
+    <string name="messageTitle">Сообщение:</string>
+    <string name="send">Отправить</string>
+    <string name="no_camera_permission">Нет разрешения на доуступ к камере</string>
+    <string name="low_storage_error">Слишком мало места в хранилище</string>
+    <string name="qr_bar_generating">Генерируется QR/bar код</string>
+    <string name="share_dialog_title">Поделится через</string>
+    <string name="view_dialog_title">Просмотреть через</string>
+    <string name="saved">Изображение кода сохранено</string>
+    <string name="open_after_save_question">Открыть после сохранения?</string>
+    <string name="autofocus_setting_title">Автофокус</string>
+</resources>
