@@ -41,4 +41,6 @@ fun Barcode.barcodeFormatZXING(): BarcodeFormat {
         Barcode.ITF -> BarcodeFormat.ITF
         else -> BarcodeFormat.QR_CODE
     }
+
+
 }

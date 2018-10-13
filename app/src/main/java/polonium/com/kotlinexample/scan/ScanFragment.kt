@@ -188,6 +188,7 @@ class ScanFragment : Fragment() {
         // at long distances.
         var builder: CameraSource.Builder = CameraSource.Builder(context!!, barcodeDetector)
                 .setFacing(cameraFacing)
+                .setFocusMode(if (autoFocus) Camera.Parameters.FOCUS_MODE_AUTO else null)
                 .setRequestedPreviewSize(height, width)
                 .setRequestedFps(15.0f)
 
@@ -339,17 +340,17 @@ class ScanFragment : Fragment() {
     private fun onTap(rawX: Float, rawY: Float): Boolean {
         // Find tap point in preview frame coordinates.
         val location = IntArray(2)
-        graphicOverlay!!.getLocationOnScreen(location)
-        val x = (rawX - location[0]) / graphicOverlay!!.widthScaleFactor
-        val y = (rawY - location[1]) / graphicOverlay!!.heightScaleFactor
+        graphicOverlay.getLocationOnScreen(location)
+        val x = (rawX - location[0]) / graphicOverlay.widthScaleFactor
+        val y = (rawY - location[1]) / graphicOverlay.heightScaleFactor
 
         // Find the barcode whose center is closest to the tapped point.
         var best: Barcode? = null
         var bestDistance = java.lang.Float.MAX_VALUE
         val allRetrieved = ArrayList<Barcode>()
-        for (graphic in graphicOverlay!!.graphics) {
-            val barcode = graphic.getBarcode()
-            allRetrieved.add(barcode!!)
+        for (graphic in graphicOverlay.graphics) {
+            val barcode = graphic.getBarcode() ?: continue
+            allRetrieved.add(barcode)
             if (barcode.boundingBox.contains(x.toInt(), y.toInt())) {
                 // Exact hit, no need to keep looking.
                 best = barcode

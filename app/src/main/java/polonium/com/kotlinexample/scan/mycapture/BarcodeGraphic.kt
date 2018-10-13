@@ -7,31 +7,29 @@ import androidx.core.content.ContextCompat
 import com.google.android.gms.vision.barcode.Barcode
 
 
-class BarcodeGraphic(overlay: GraphicOverlay) : GraphicOverlay.Graphic(overlay) {
+class BarcodeGraphic(var overlay: GraphicOverlay) : GraphicOverlay.Graphic(overlay) {
     private var mId: Int = 0
 
 
     private var mCurrentColorIndex = 0
 
-    private var mRectPaint: Paint? = null
-    private var mTextPaint: Paint? = null
+    private var mRectPaint: Paint
+    private var mTextPaint: Paint
     @Volatile
     private var mBarcode: Barcode? = null
-    private var graphicOverlay: GraphicOverlay? = null
 
     init {
-        graphicOverlay = overlay
         mCurrentColorIndex = (mCurrentColorIndex + 1) % overlay.rectColors?.size!!
         val selectedColor = ContextCompat.getColor(overlay.context, overlay.rectColors!![mCurrentColorIndex])
 
         mRectPaint = Paint()
-        mRectPaint!!.color = selectedColor
-        mRectPaint!!.style = Paint.Style.STROKE
-        mRectPaint!!.strokeWidth = 4.0f
+        mRectPaint.color = selectedColor
+        mRectPaint.style = Paint.Style.STROKE
+        mRectPaint.strokeWidth = 4.0f
 
         mTextPaint = Paint()
-        mTextPaint!!.color = selectedColor
-        mTextPaint!!.textSize = 36.0f
+        mTextPaint.color = selectedColor
+        mTextPaint.textSize = 36.0f
     }
 
     fun getId(): Int {
@@ -67,11 +65,11 @@ class BarcodeGraphic(overlay: GraphicOverlay) : GraphicOverlay.Graphic(overlay) 
         rect.top = translateY(rect.top)
         rect.right = translateX(rect.right)
         rect.bottom = translateY(rect.bottom)
-        if (graphicOverlay?.isDrawRect!!)
+        if (overlay.isDrawRect)
             canvas.drawRect(rect, mRectPaint)
 
         // Draws a label at the bottom of the barcode indicate the barcode value that was detected.
-        if (graphicOverlay?.isShowText!!)
+        if (overlay.isShowText)
             canvas.drawText(barcode.rawValue, rect.left, rect.bottom, mTextPaint)
     }
 }

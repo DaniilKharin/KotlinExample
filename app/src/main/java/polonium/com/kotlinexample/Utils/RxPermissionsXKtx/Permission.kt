@@ -16,8 +16,8 @@ class Permission {
 
     constructor(permissions: List<Permission>) {
         name = combineName(permissions)
-        granted = combineGranted(permissions)!!
-        shouldShowRequestPermissionRationale = combineShouldShowRequestPermissionRationale(permissions)!!
+        granted = combineGranted(permissions)
+        shouldShowRequestPermissionRationale = combineShouldShowRequestPermissionRationale(permissions)
     }
 
     override fun equals(other: Any?): Boolean {
@@ -47,22 +47,27 @@ class Permission {
 
     private fun combineName(permissions: List<Permission>): String {
         return Observable.fromIterable(permissions)
-                .map { permission -> permission.name }.collectInto(StringBuilder()) { s, s2 ->
+                .map { permission -> permission.name }
+                .collectInto(StringBuilder()) { s, s2 ->
                     if (s.isEmpty()) {
                         s.append(s2)
                     } else {
                         s.append(", ").append(s2)
                     }
-                }.blockingGet().toString()
+                }
+                .blockingGet()
+                .toString()
     }
 
-    private fun combineGranted(permissions: List<Permission>): Boolean? {
+    private fun combineGranted(permissions: List<Permission>): Boolean {
         return Observable.fromIterable(permissions)
-                .all { permission -> permission.granted }.blockingGet()
+                .all { permission -> permission.granted }
+                .blockingGet()
     }
 
-    private fun combineShouldShowRequestPermissionRationale(permissions: List<Permission>): Boolean? {
+    private fun combineShouldShowRequestPermissionRationale(permissions: List<Permission>): Boolean {
         return Observable.fromIterable(permissions)
-                .any { permission -> permission.shouldShowRequestPermissionRationale }.blockingGet()
+                .any { permission -> permission.shouldShowRequestPermissionRationale }
+                .blockingGet()
     }
 }
