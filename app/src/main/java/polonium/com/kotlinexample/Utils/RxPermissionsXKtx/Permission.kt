@@ -2,12 +2,11 @@ package polonium.com.kotlinexample.Utils.RxPermissionsXKtx
 
 
 import io.reactivex.Observable
-import io.reactivex.functions.Predicate
 
 class Permission {
     val name: String
     val granted: Boolean
-    val shouldShowRequestPermissionRationale: Boolean
+    private val shouldShowRequestPermissionRationale: Boolean
 
     @JvmOverloads constructor(name: String, granted: Boolean, shouldShowRequestPermissionRationale: Boolean = false) {
         this.name = name
@@ -21,14 +20,14 @@ class Permission {
         shouldShowRequestPermissionRationale = combineShouldShowRequestPermissionRationale(permissions)!!
     }
 
-    override fun equals(o: Any?): Boolean {
-        if (this === o) return true
-        if (o == null || javaClass != o!!.javaClass) return false
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || javaClass != other.javaClass) return false
 
-        val that = o as Permission?
+        val that = other as Permission?
 
         if (granted != that!!.granted) return false
-        return if (shouldShowRequestPermissionRationale != that!!.shouldShowRequestPermissionRationale) false else name == that!!.name
+        return if (shouldShowRequestPermissionRationale != that.shouldShowRequestPermissionRationale) false else name == that.name
     }
 
     override fun hashCode(): Int {
@@ -49,7 +48,7 @@ class Permission {
     private fun combineName(permissions: List<Permission>): String {
         return Observable.fromIterable(permissions)
                 .map { permission -> permission.name }.collectInto(StringBuilder()) { s, s2 ->
-                    if (s.length == 0) {
+                    if (s.isEmpty()) {
                         s.append(s2)
                     } else {
                         s.append(", ").append(s2)
@@ -59,21 +58,11 @@ class Permission {
 
     private fun combineGranted(permissions: List<Permission>): Boolean? {
         return Observable.fromIterable(permissions)
-                .all(object : Predicate<Permission> {
-                    @Throws(Exception::class)
-                    override fun test(permission: Permission): Boolean {
-                        return permission.granted
-                    }
-                }).blockingGet()
+                .all { permission -> permission.granted }.blockingGet()
     }
 
     private fun combineShouldShowRequestPermissionRationale(permissions: List<Permission>): Boolean? {
         return Observable.fromIterable(permissions)
-                .any(object : Predicate<Permission> {
-                    @Throws(Exception::class)
-                    override fun test(permission: Permission): Boolean {
-                        return permission.shouldShowRequestPermissionRationale
-                    }
-                }).blockingGet()
+                .any { permission -> permission.shouldShowRequestPermissionRationale }.blockingGet()
     }
 }

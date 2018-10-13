@@ -33,26 +33,8 @@ import java.util.*
 
 class ScanFragment : Fragment() {
     var viewModel : ScanViewModel? = null
-    val compositeDisposable = CompositeDisposable()
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(ScanViewModel::class.java)
-        viewModel?.barcodeDetector = BarcodeDetector.Builder(context)
-                .setBarcodeFormats(viewModel?.barcodeFormat!!)
-                .build()
-        (activity as MainActivity).appComponent.inject(viewModel!!)
-    }
-
-
-    private val TAG = "Barcode-reader"
-
-    // intent request code to handle updating play services if needed.
-    private val RC_HANDLE_GMS = 9001
-
-    // permission request codes need to be < 256
-    private val RC_HANDLE_CAMERA_PERM = 2
+    private val compositeDisposable = CompositeDisposable()
 
     private var mCameraSource: CameraSource? = null
 
@@ -64,16 +46,19 @@ class ScanFragment : Fragment() {
     private var pendingPermission:Boolean = false
 
 
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel = ViewModelProviders.of(this).get(ScanViewModel::class.java)
+        viewModel?.barcodeDetector = BarcodeDetector.Builder(context)
+                .setBarcodeFormats(viewModel?.barcodeFormat!!)
+                .build()
+        (activity as MainActivity).appComponent.inject(viewModel!!)
+    }
 
     private var rectColors: Array<Int>? = arrayOf(R.color.colorPrimary,R.color.colorPrimaryDark,R.color.colorAccent)
 
 
     private var cameraFacing:Int = CameraSource.CAMERA_FACING_BACK
-
-
-
-
 
     /**
      * Initializes the UI and creates the detector pipeline.
@@ -106,7 +91,6 @@ class ScanFragment : Fragment() {
         }
     }
 
-
     /**
      * Handles the requesting of the camera permission.  This includes
      * showing a "Snackbar" message of why the permission is needed then
@@ -132,7 +116,6 @@ class ScanFragment : Fragment() {
                     }
                 })
     }
-
 
     /**
      * Creates and starts the camera.  Note that this uses a higher resolution in comparison
@@ -302,14 +285,14 @@ class ScanFragment : Fragment() {
     override fun onRequestPermissionsResult(requestCode: Int,
                                             permissions: Array<String>,
                                             grantResults: IntArray) {
-        if (requestCode != RC_HANDLE_CAMERA_PERM) {
-            Timber.tag(TAG).w("Got unexpected permission result: $requestCode")
+        if (requestCode != Companion.RC_HANDLE_CAMERA_PERM) {
+            Timber.tag(Companion.TAG).w("Got unexpected permission result: $requestCode")
             super.onRequestPermissionsResult(requestCode, permissions, grantResults)
             return
         }
 
-        if (grantResults.size != 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            Timber.tag(TAG).d("Camera permission granted - initialize the camera source")
+        if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            Timber.tag(Companion.TAG).d("Camera permission granted - initialize the camera source")
             // we have permission, so create the camerasource
             createCameraSource(viewModel?.preferencis!!.autofocus, viewModel?.preferencis!!.showFlash)
             return
@@ -330,7 +313,7 @@ class ScanFragment : Fragment() {
         val code = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(
                 context!!)
         if (code != ConnectionResult.SUCCESS) {
-            val dlg = GoogleApiAvailability.getInstance().getErrorDialog(activity, code, RC_HANDLE_GMS)
+            val dlg = GoogleApiAvailability.getInstance().getErrorDialog(activity, code, Companion.RC_HANDLE_GMS)
             dlg.show()
         }
 
@@ -338,7 +321,7 @@ class ScanFragment : Fragment() {
             try {
                 preview!!.start(mCameraSource!!, graphicOverlay)
             } catch (e: IOException) {
-                Timber.tag(TAG).e(e, "Unable to start camera source.")
+                Timber.tag(Companion.TAG).e(e, "Unable to start camera source.")
                 mCameraSource!!.release()
                 mCameraSource = null
             }
@@ -477,6 +460,14 @@ class ScanFragment : Fragment() {
         }
 
         internal abstract fun onCodeDetected(barcode: Barcode)
+    }
+
+    companion object {
+        private const val TAG = "Barcode-reader"
+        // intent request code to handle updating play services if needed.
+        private const val RC_HANDLE_GMS = 9001
+        // permission request codes need to be < 256
+        private const val RC_HANDLE_CAMERA_PERM = 2
     }
 
 

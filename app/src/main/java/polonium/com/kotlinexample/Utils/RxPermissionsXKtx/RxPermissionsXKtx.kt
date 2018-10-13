@@ -14,18 +14,17 @@ import io.reactivex.ObservableSource
 import io.reactivex.ObservableTransformer
 import io.reactivex.functions.Function
 import io.reactivex.subjects.PublishSubject
-
-
-
-
-
-public class RxPermissionsXKtx{
+/*
+* Realization of RxPermissions on Kotlin
+* with usage only AndroidX components
+* */
+class RxPermissionsXKtx{
 
     companion object {
         val TAG = RxPermissionsXKtx::class.java.simpleName
     }
 
-    val TRIGGER = Any()
+    private val TRIGGER = Any()
 
     @VisibleForTesting
     var mRxPermissionsFragment: Lazy<RxPermissionsFragment>

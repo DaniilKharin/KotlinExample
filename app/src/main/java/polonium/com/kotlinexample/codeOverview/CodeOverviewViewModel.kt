@@ -92,17 +92,7 @@ class CodeOverviewViewModel(val barcode: Barcode) : ViewModel() {
 
     class Factory(val barcode: Barcode) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            return if (modelClass == CodeOverviewViewModel::class.java)
-                CodeOverviewViewModel(barcode) as T
-            else
-                try {
-                    modelClass.newInstance()
-                } catch (e: InstantiationException) {
-                    throw RuntimeException("Cannot create an instance of $modelClass", e)
-                } catch (e: IllegalAccessException) {
-                    throw RuntimeException("Cannot create an instance of $modelClass", e)
-                }
-
+            return modelClass.getConstructor(Barcode::class.java).newInstance(barcode)
         }
     }
 

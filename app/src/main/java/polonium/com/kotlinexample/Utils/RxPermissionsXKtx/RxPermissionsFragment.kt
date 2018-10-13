@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import io.reactivex.subjects.PublishSubject
+import timber.log.Timber
 import java.util.*
 
 
@@ -51,7 +52,7 @@ class RxPermissionsFragment : Fragment() {
             val subject = mSubjects[permissions[i]]
             if (subject == null) {
                 // No subject found
-                Log.e(RxPermissionsXKtx.TAG, "RxPermissions.onRequestPermissionsResult invoked but didn't find the corresponding permission request.")
+                Timber.tag(RxPermissionsXKtx.TAG).e("RxPermissions.onRequestPermissionsResult invoked but didn't find the corresponding permission request.")
                 return
             }
             mSubjects.remove(permissions[i])
@@ -94,13 +95,13 @@ class RxPermissionsFragment : Fragment() {
 
     internal fun log(message: String) {
         if (mLogging) {
-            Log.d(RxPermissionsXKtx.TAG, message)
+            Timber.tag(RxPermissionsXKtx.TAG).d(message)
         }
     }
 
     companion object {
 
-        private val PERMISSIONS_REQUEST_CODE = 42
+        private const val PERMISSIONS_REQUEST_CODE = 42
     }
 
 }
