@@ -70,9 +70,9 @@ class ScanFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        graphicOverlay!!.isShowText = viewModel?.preferencis!!.shouldShowText
+        graphicOverlay!!.isShowText = viewModel?.preferences!!.shouldShowText
         graphicOverlay!!.rectColors = rectColors
-        graphicOverlay!!.isDrawRect = viewModel?.preferencis!!.showDrawRect
+        graphicOverlay!!.isDrawRect = viewModel?.preferences!!.showDrawRect
 
         // read parameters from the intent used to launch the activity.
 
@@ -106,7 +106,7 @@ class ScanFragment : Fragment() {
         compositeDisposable.add(rxPermissions.request(Manifest.permission.CAMERA)
                 .subscribe { granted ->
                     if (granted!!) {
-                        createCameraSource(viewModel?.preferencis!!.autofocus, viewModel?.preferencis!!.showFlash)
+                        createCameraSource(viewModel?.preferences!!.autofocus, viewModel?.preferences!!.showFlash)
                         if (pendingPermission) {
                             handleSourceRefresh(forceRefresh)
                         } else if (startSource)
@@ -143,7 +143,7 @@ class ScanFragment : Fragment() {
 
         val barcodeFactory = object : BarcodeTrackerFactory(graphicOverlay) {
             override fun onCodeDetected(barcode: Barcode) {
-                if (!viewModel?.preferencis!!.touchAsCallback && !viewModel?.preferencis!!.multipleScan){
+                if (!viewModel?.preferences!!.touchAsCallback && !viewModel?.preferences!!.multipleScan){
                     if (!(viewModel?.pause)!!)
                         viewModel?.onRetrieved(barcode)
                 }
@@ -186,7 +186,7 @@ class ScanFragment : Fragment() {
         // Creates and starts the camera.  Note that this uses a higher resolution in comparison
         // to other detection examples to enable the barcode detector to detect small barcodes
         // at long distances.
-        var builder: CameraSource.Builder = CameraSource.Builder(context!!, barcodeDetector)
+        val builder: CameraSource.Builder = CameraSource.Builder(context!!, barcodeDetector)
                 .setFacing(cameraFacing)
                 .setFocusMode(if (autoFocus) Camera.Parameters.FOCUS_MODE_AUTO else null)
                 .setRequestedPreviewSize(height, width)
@@ -227,11 +227,11 @@ class ScanFragment : Fragment() {
         this.forceRefresh = false
         pendingPermission = false
 
-        graphicOverlay!!.isDrawRect = viewModel?.preferencis!!.showDrawRect
+        graphicOverlay!!.isDrawRect = viewModel?.preferences!!.showDrawRect
         graphicOverlay!!.rectColors = rectColors
-        graphicOverlay!!.isShowText = viewModel?.preferencis!!.shouldShowText
-        mCameraSource!!.setFocusMode(if (viewModel?.preferencis!!.autofocus) Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE else null)
-        mCameraSource!!.setFlashMode(if (viewModel?.preferencis!!.showFlash) Camera.Parameters.FLASH_MODE_TORCH else Camera.Parameters.FLASH_MODE_OFF)
+        graphicOverlay!!.isShowText = viewModel?.preferences!!.shouldShowText
+        mCameraSource!!.setFocusMode(if (viewModel?.preferences!!.autofocus) Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE else null)
+        mCameraSource!!.setFlashMode(if (viewModel?.preferences!!.showFlash) Camera.Parameters.FLASH_MODE_TORCH else Camera.Parameters.FLASH_MODE_OFF)
         if (cameraFacing != mCameraSource!!.cameraFacing || viewModel?.barcodeFormatUpdate!! || forceRefresh) {
             if (viewModel?.barcodeDetector?.isOperational!!)
                 viewModel?.barcodeDetector?.release()
@@ -295,7 +295,7 @@ class ScanFragment : Fragment() {
         if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             Timber.tag(Companion.TAG).d("Camera permission granted - initialize the camera source")
             // we have permission, so create the camerasource
-            createCameraSource(viewModel?.preferencis!!.autofocus, viewModel?.preferencis!!.showFlash)
+            createCameraSource(viewModel?.preferences!!.autofocus, viewModel?.preferences!!.showFlash)
             return
         }
 
@@ -367,7 +367,7 @@ class ScanFragment : Fragment() {
 
         if (best != null) {
             if (viewModel != null)
-                if (viewModel?.preferencis!!.multipleScan) {
+                if (viewModel?.preferences!!.multipleScan) {
                     viewModel!!.onRetrievedMultiple(best, graphicOverlay!!.graphics)
                 } else {
                     viewModel!!.onRetrieved(best)

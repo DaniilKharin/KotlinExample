@@ -22,13 +22,15 @@ abstract class DatabindingAdapters {
 
         @JvmStatic
         @BindingAdapter("barcode")
-        public fun ImageView.setBarcode(barcode: Barcode) {
+        fun ImageView.setBarcode(barcode: Barcode) {
             val manager: WindowManager = this.context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
             val displayMetrics = DisplayMetrics()
             manager.defaultDisplay.getMetrics(displayMetrics)
-            val minSide: Int = pxToDpInt(displayMetrics, if (displayMetrics.widthPixels < displayMetrics.heightPixels) displayMetrics.widthPixels else displayMetrics.heightPixels)
-
-
+            val minSide: Int = pxToDpInt(
+                    displayMetrics,
+                    if (displayMetrics.widthPixels < displayMetrics.heightPixels) displayMetrics.widthPixels
+                    else displayMetrics.heightPixels
+            )
             val disposable = Observable.fromCallable {
                 barcode.createBitmap(
                         if (this.layoutParams.width >= 0) pxToDpInt(displayMetrics, this.layoutParams.width) else minSide,
@@ -51,7 +53,7 @@ abstract class DatabindingAdapters {
         }
 
 
-        fun pxToDpInt(displayMetrics: DisplayMetrics, px: Int): Int {
+        private fun pxToDpInt(displayMetrics: DisplayMetrics, px: Int): Int {
             return (px *  DisplayMetrics.DENSITY_DEFAULT / displayMetrics.densityDpi.toFloat()).toInt()
         }
 

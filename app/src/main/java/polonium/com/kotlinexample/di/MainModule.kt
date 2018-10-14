@@ -6,7 +6,7 @@ import dagger.Provides
 import polonium.com.kotlinexample.IRouter
 import polonium.com.kotlinexample.MainActivity
 import polonium.com.kotlinexample.Router
-import polonium.com.kotlinexample.data.Preferencis
+import polonium.com.kotlinexample.data.Preferences
 
 @Module
 class MainModule(private val mainActivity: MainActivity) {
@@ -17,8 +17,8 @@ class MainModule(private val mainActivity: MainActivity) {
     }
 
     @Provides
-    fun providePref(): Preferencis {
-        return Preferencis(mainActivity.getSharedPreferences(PREFS_NAME,MODE_PRIVATE))
+    fun providePref(): Preferences {
+        return Preferences(mainActivity.getSharedPreferences(PREFS_NAME,MODE_PRIVATE))
     }
 
     companion object {

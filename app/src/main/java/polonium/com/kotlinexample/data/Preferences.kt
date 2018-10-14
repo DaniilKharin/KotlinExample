@@ -2,7 +2,7 @@ package polonium.com.kotlinexample.data
 
 import android.content.SharedPreferences
 
-class Preferencis(val sharedPreferences: SharedPreferences) {
+class Preferences(private val sharedPreferences: SharedPreferences) {
 
     var autofocus: Boolean
         get() = sharedPreferences.getBoolean(AUTOFOCUS_SETTING_NAME, true)
