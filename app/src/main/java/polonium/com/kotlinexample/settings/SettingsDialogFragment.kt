@@ -18,10 +18,14 @@ class SettingsDialogFragment : BottomSheetDialogFragment() {
     private lateinit var viewModel: SettingsViewModel
     private lateinit var binding: FragmentSettingsDialogBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(SettingsViewModel()::class.java)
         (activity as MainActivity).appComponent.inject(this.viewModel)
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
         binding = FragmentSettingsDialogBinding.inflate(inflater, container, false)
         binding.viewModel = viewModel
         return binding.root
