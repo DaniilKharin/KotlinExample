@@ -4,6 +4,8 @@ import android.graphics.Bitmap
 import android.net.Uri
 import androidx.databinding.ObservableField
 import com.google.android.gms.vision.barcode.Barcode
+import polonium.com.kotlinexample.data.BarcodeRealm
+import polonium.com.kotlinexample.data.SmsRealm
 
 interface IRouter {
 
@@ -15,9 +17,9 @@ interface IRouter {
 
     fun showMessage(message: String)
 
-    fun openOverview(barcode: Barcode)
+    fun openOverview(barcode: BarcodeRealm)
 
-    fun sendSMS(sms: Barcode.Sms)
+    fun sendSMS(sms: SmsRealm)
 
     fun callTelNumber(tel: String)
 

@@ -10,11 +10,13 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import polonium.com.kotlinexample.IRouter
-import polonium.com.kotlinexample.R
-import polonium.com.kotlinexample.Utils.createBitmap
+import polonium.com.kotlinexample.data.BarcodeRealm
+import polonium.com.kotlinexample.utils.BarcodeValueType
+import polonium.com.kotlinexample.utils.createBitmap
+import polonium.com.kotlinexample.utils.valueType
 import javax.inject.Inject
 
-class CodeOverviewViewModel(val barcode: Barcode) : ViewModel() {
+class CodeOverviewViewModel(val barcode: BarcodeRealm) : ViewModel() {
 
     @Inject
     lateinit var router: IRouter
@@ -23,35 +25,19 @@ class CodeOverviewViewModel(val barcode: Barcode) : ViewModel() {
 
     var imageUri: ObservableField<Uri?> = ObservableField()
 
-    val barcodeValueType: BarcodeValueType = BarcodeValueType.values()[barcode.valueFormat]
-
-    enum class BarcodeValueType(val strId: Int) {
-        ERR(R.string.err),
-        CONTACT_INFO(R.string.contact),
-        EMAIL(R.string.email),
-        ISBN(R.string.ISBN),
-        PHONE(R.string.phone),
-        PRODUCT(R.string.product),
-        SMS(R.string.sms),
-        TEXT(R.string.text),
-        URL(R.string.url),
-        WIFI(R.string.wifi),
-        GEO(R.string.geo),
-        CALENDAR_EVENT(R.string.calendarEvent),
-        DRIVER_LICENSE(R.string.driverLicense)
-
-
+    fun getBarcodeValueType(): BarcodeValueType{
+        return barcode.valueType
     }
 
     fun sendSms() {
-        if (barcodeValueType == BarcodeValueType.SMS)
-            router.sendSMS(barcode.sms)
+        if (barcode.valueType == BarcodeValueType.SMS)
+            barcode.sms?.let { router.sendSMS(it) }
         else
             throw RuntimeException("Не верный тип кода")
     }
 
     fun call() {
-        router.callTelNumber(barcode.sms.phoneNumber)
+        barcode.sms?.phoneNumber?.let { router.callTelNumber(it) }
     }
 
     fun shareCodeImage() {
@@ -90,9 +76,9 @@ class CodeOverviewViewModel(val barcode: Barcode) : ViewModel() {
                     })
     }
 
-    class Factory(val barcode: Barcode) : ViewModelProvider.Factory {
+    class Factory(val barcode: BarcodeRealm) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            return modelClass.getConstructor(Barcode::class.java).newInstance(barcode)
+            return modelClass.getConstructor(BarcodeRealm::class.java).newInstance(barcode)
         }
     }
 

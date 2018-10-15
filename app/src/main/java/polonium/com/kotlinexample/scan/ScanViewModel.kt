@@ -5,10 +5,12 @@ import android.util.SparseArray
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.vision.barcode.Barcode
 import com.google.android.gms.vision.barcode.BarcodeDetector
+import io.realm.Realm
 import polonium.com.kotlinexample.IRouter
 import polonium.com.kotlinexample.data.Preferences
 import polonium.com.kotlinexample.scan.mycapture.BarcodeGraphic
 import polonium.com.kotlinexample.scan.mycapture.BarcodeRetriever
+import polonium.com.kotlinexample.utils.toBarcodeRealm
 import javax.inject.Inject
 
 
@@ -25,7 +27,8 @@ class ScanViewModel : ViewModel() , BarcodeRetriever {
     var barcodeDetector: BarcodeDetector? = null
 
     override fun onRetrieved(barcode: Barcode) {
-        router.openOverview(barcode)
+        //save to history and open
+        router.openOverview(barcode.toBarcodeRealm(Realm.getDefaultInstance()))
     }
 
     override fun onRetrievedMultiple(closetToClick: Barcode, barcode: List<BarcodeGraphic>) {

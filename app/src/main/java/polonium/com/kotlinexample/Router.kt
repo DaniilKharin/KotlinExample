@@ -13,8 +13,10 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.gms.vision.barcode.Barcode
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.app_bar_main.*
-import polonium.com.kotlinexample.Utils.RxPermissionsXKtx.RxPermissionsXKtx
+import polonium.com.kotlinexample.utils.RxPermissionsXKtx.RxPermissionsXKtx
 import polonium.com.kotlinexample.codeOverview.CodeOverviewFragment
+import polonium.com.kotlinexample.data.BarcodeRealm
+import polonium.com.kotlinexample.data.SmsRealm
 
 
 class Router constructor(private val fragmentManager: FragmentManager, val activity: MainActivity) : IRouter {
@@ -95,7 +97,7 @@ class Router constructor(private val fragmentManager: FragmentManager, val activ
         const val OVERVIEW_FRAGMENT_NAME = "overview"
     }
 
-    override fun sendSMS(sms: Barcode.Sms) {
+    override fun sendSMS(sms: SmsRealm) {
         val smsIntent = Intent(android.content.Intent.ACTION_VIEW)
         smsIntent.type = "vnd.android-dir/mms-sms"
         smsIntent.putExtra("address", sms.phoneNumber)
@@ -103,10 +105,10 @@ class Router constructor(private val fragmentManager: FragmentManager, val activ
         activity.startActivity(smsIntent)
     }
 
-    override fun openOverview(barcode: Barcode) {
+    override fun openOverview(barcode: BarcodeRealm) {
         val args = Bundle()
-        args.putParcelable(CodeOverviewFragment.ARG_BARCODE, barcode)
-        activity.nav_host_fragment.findNavController().navigate(R.id.action_scanFragment_to_codeOverviewFragment, args)
+        args.putString(CodeOverviewFragment.ARG_BARCODE, barcode.ID)
+        activity.nav_host_fragment.findNavController().navigate(R.id.codeOverviewFragment, args)
     }
 
     override fun showMessage(message: String) {

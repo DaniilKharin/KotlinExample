@@ -1,4 +1,4 @@
-package polonium.com.kotlinexample.Utils.RxPermissionsXKtx
+package polonium.com.kotlinexample.utils.RxPermissionsXKtx
 
 import android.annotation.TargetApi
 import android.app.Activity

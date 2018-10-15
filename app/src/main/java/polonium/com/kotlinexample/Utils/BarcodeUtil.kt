@@ -1,4 +1,4 @@
-package polonium.com.kotlinexample.Utils
+package polonium.com.kotlinexample.utils
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -6,10 +6,12 @@ import android.graphics.Color
 import com.google.android.gms.vision.barcode.Barcode
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
+import polonium.com.kotlinexample.R
+import polonium.com.kotlinexample.data.BarcodeRealm
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 
-fun Barcode.createBitmap(width: Int, height: Int): Bitmap {
+fun BarcodeRealm.createBitmap(width: Int, height: Int): Bitmap {
     val bitMatrix = MultiFormatWriter().encode(this.rawValue, this.barcodeFormatZXING()
             , width
             , height)
@@ -25,7 +27,7 @@ fun Barcode.createBitmap(width: Int, height: Int): Bitmap {
     return BitmapFactory.decodeStream(ByteArrayInputStream(byteArrayOutputStream.toByteArray()))
 }
 
-fun Barcode.barcodeFormatZXING(): BarcodeFormat {
+fun BarcodeRealm.barcodeFormatZXING(): BarcodeFormat {
     return when (this.format) {
         Barcode.CODABAR -> BarcodeFormat.CODABAR
         Barcode.PDF417 -> BarcodeFormat.PDF_417
@@ -41,6 +43,26 @@ fun Barcode.barcodeFormatZXING(): BarcodeFormat {
         Barcode.ITF -> BarcodeFormat.ITF
         else -> BarcodeFormat.QR_CODE
     }
+    }
+
+    val BarcodeRealm.valueType : BarcodeValueType
+        get() = BarcodeValueType.values()[this.valueFormat!!]
+
+    enum class BarcodeValueType(val strId: Int) {
+        ERR(R.string.err),
+        CONTACT_INFO(R.string.contact),
+        EMAIL(R.string.email),
+        ISBN(R.string.ISBN),
+        PHONE(R.string.phone),
+        PRODUCT(R.string.product),
+        SMS(R.string.sms),
+        TEXT(R.string.text),
+        URL(R.string.url),
+        WIFI(R.string.wifi),
+        GEO(R.string.geo),
+        CALENDAR_EVENT(R.string.calendarEvent),
+        DRIVER_LICENSE(R.string.driverLicense)
+    }
 
 
-}
+

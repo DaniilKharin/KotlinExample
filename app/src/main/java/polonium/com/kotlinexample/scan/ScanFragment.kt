@@ -22,7 +22,7 @@ import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_scan.*
 import polonium.com.kotlinexample.MainActivity
 import polonium.com.kotlinexample.R
-import polonium.com.kotlinexample.Utils.RxPermissionsXKtx.RxPermissionsXKtx
+import polonium.com.kotlinexample.utils.RxPermissionsXKtx.RxPermissionsXKtx
 import polonium.com.kotlinexample.scan.mycapture.BarcodeGraphic
 import polonium.com.kotlinexample.scan.mycapture.BarcodeGraphicTracker
 import polonium.com.kotlinexample.scan.mycapture.CameraSource

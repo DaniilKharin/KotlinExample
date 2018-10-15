@@ -6,6 +6,8 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
+apply plugin: 'realm-android'
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -69,4 +71,9 @@ dependencies {
     implementation "android.arch.navigation:navigation-ui-ktx:1.0.0-alpha06"
     //Timber loging
     implementation 'com.jakewharton.timber:timber:4.7.1'
+    //databinding adapters simplification
+    implementation 'me.tatarka.bindingcollectionadapter2:bindingcollectionadapter:3.0.0-beta3'
+    implementation 'me.tatarka.bindingcollectionadapter2:bindingcollectionadapter-recyclerview:3.0.0-beta3'
+    //kotlin + realm extension
+    implementation "com.github.vicpinm:krealmextensions:2.2.0"
 }

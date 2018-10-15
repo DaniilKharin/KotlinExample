@@ -1,4 +1,4 @@
-package polonium.com.kotlinexample.Utils
+package polonium.com.kotlinexample.utils
 
 import android.content.Context
 import android.util.DisplayMetrics
@@ -10,6 +10,7 @@ import com.google.android.gms.vision.barcode.Barcode
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import polonium.com.kotlinexample.data.BarcodeRealm
 
 
 abstract class DatabindingAdapters {
@@ -22,7 +23,7 @@ abstract class DatabindingAdapters {
 
         @JvmStatic
         @BindingAdapter("barcode")
-        fun ImageView.setBarcode(barcode: Barcode) {
+        fun ImageView.setBarcode(barcode: BarcodeRealm) {
             val manager: WindowManager = this.context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
             val displayMetrics = DisplayMetrics()
             manager.defaultDisplay.getMetrics(displayMetrics)

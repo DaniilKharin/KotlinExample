@@ -27,4 +27,8 @@
         android:id="@+id/settingsDialogFragment"
         android:name="polonium.com.kotlinexample.settings.SettingsDialogFragment"
         android:label="SettingsDialogFragment" />
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="polonium.com.kotlinexample.history.HistoryFragment"
+        android:label="HistoryFragment" />
 </navigation>

@@ -1,4 +1,4 @@
-package polonium.com.kotlinexample.Utils.RxPermissionsXKtx
+package polonium.com.kotlinexample.utils.RxPermissionsXKtx
 
 
 import io.reactivex.Observable
